@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+    
+{% block content %}
+<h2 class="text-center">Admin Panel</h2>
+
+<h3>All Users</h3>
+<table border="1" cellpadding="5">
+  <tr>
+    <th>ID</th>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Is Admin</th>
+    <th>Actions</th>
+  </tr>
+  {% for user in users %}
+    <tr>
+      <form action="{{ url_for('update_user', user_id=user.id) }}" method="POST">
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td><input type="email" name="email" value="{{ user.email }}" required></td>
+        <td>
+          <select name="is_admin">
+            <option value="1" {% if user.is_admin %}selected{% endif %}>Yes</option>
+            <option value="0" {% if not user.is_admin %}selected{% endif %}>No</option>
+          </select>
+        </td>
+        <td>
+          <button type="submit">Update</button>
+          <a href="{{ url_for('delete_user', user_id=user.id) }}" onclick="return confirm('Are you sure?')">Delete</a>
+        </td>
+      </form>
+    </tr>
+  {% endfor %}
+</table>
+
+<h3 class="mt-5">User Activity Logs</h3>
+<table border="1" cellpadding="5">
+  <tr><th>Time</th><th>User ID</th><th>Action</th><th>Filename</th><th>Type</th></tr>
+  {% for log in logs %}
+    <tr>
+      <td>{{ log.timestamp }}</td>
+      <td>{{ log.user_id }}</td>
+      <td>{{ log.action }}</td>
+      <td>{{ log.media_filename or '-' }}</td>
+      <td>{{ log.media_type or '-' }}</td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}

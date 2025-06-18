@@ -1,0 +1,13 @@
+flask
+qiskit
+qiskit-aer
+numpy
+opencv-python
+Pillow
+pycryptodome
+eciespy
+matplotlib
+sqlalchemy
+flask_sqlalchemy
+flask_login
+reportlab

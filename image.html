@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Image Steganography</h1>
+
+<!-- RSA Key Autofill Section -->
+<div class="mb-3">
+    <button type="button" class="btn btn-outline-primary" onclick="window.location.href='?generate_keys=rsa'">
+        🔐 Generate RSA Key Pair
+    </button>
+</div>
+
+{% if public_key %}
+<div class="mb-3">
+    <label class="form-label">Generated Public Key:</label>
+    <textarea class="form-control" id="publicKeyBox" rows="5" readonly>{{ public_key }}</textarea>
+    <button class="btn btn-success mt-1" type="button" onclick="fillKeyFromTextarea('publicKeyBox')">Use Public Key</button>
+</div>
+{% endif %}
+
+{% if private_key %}
+<div class="mb-3">
+    <label class="form-label">Generated Private Key:</label>
+    <textarea class="form-control" id="privateKeyBox" rows="5" readonly>{{ private_key }}</textarea>
+    <button class="btn btn-warning mt-1" type="button" onclick="fillKeyFromTextarea('privateKeyBox')">Use Private Key</button>
+</div>
+{% endif %}
+
+<!-- Image Encryption Section -->
+<form method="POST" enctype="multipart/form-data">
+    <h3>Encrypt Message in Image</h3>
+    <label for="image">Select Image:</label>
+    <input type="file" name="image" required>
+    <br><br>
+
+    <label for="message">Message to hide:</label>
+    <textarea name="message" rows="4" cols="50" required></textarea>
+    <br><br>
+
+    <label for="encryption">Encryption Method:</label>
+    <select name="encryption" required>
+        <option value="AES">AES</option>
+        <option value="DES">DES</option>
+        <option value="RSA">RSA</option>
+        <option value="ECC">ECC</option>
+    </select>
+    <br><br>
+
+    <label for="key">Encryption Key (PEM format for RSA/ECC):</label><br>
+    <textarea name="key" id="key" rows="8" cols="60" placeholder="-----BEGIN PUBLIC KEY-----&#10;MIIBIjANBgkqhki...&#10;-----END PUBLIC KEY-----" required></textarea>
+    <br><br>
+
+    <button type="submit" name="action" value="encrypt">Encrypt</button>
+</form>
+
+{% if stego_image_url %}
+    <h3>Encrypted Image:</h3>
+    <a href="{{ stego_image_url }}" download class="btn btn-primary">Download Stego Image</a>
+{% endif %}
+
+<hr>
+
+<!-- Image Decryption Section -->
+<form method="POST" enctype="multipart/form-data">
+    <h3>Decrypt Message from Image</h3>
+    <label for="image">Select Image:</label>
+    <input type="file" name="image" required>
+    <br><br>
+
+    <label for="encryption">Encryption Method:</label>
+    <select name="encryption" required>
+        <option value="AES">AES</option>
+        <option value="DES">DES</option>
+        <option value="RSA">RSA</option>
+        <option value="ECC">ECC</option>
+    </select>
+    <br><br>
+
+    <label for="key">Decryption Key (PEM format for RSA/ECC):</label><br>
+    <textarea name="key" id="key" rows="8" cols="60" placeholder="-----BEGIN PRIVATE KEY-----&#10;MIIEv...&#10;-----END PRIVATE KEY-----" required></textarea>
+    <br><br>
+
+    <button type="submit" name="action" value="decrypt">Decrypt</button>
+</form>
+
+{% if decrypted_message %}
+    <h3>Decrypted Message:</h3>
+    <div style="border: 1px solid #ccc; padding: 10px; background-color: #f8f8f8;">
+        {{ decrypted_message }}
+    </div>
+{% endif %}
+
+{% if error %}
+    <p style="color: red;">{{ error }}</p>
+{% endif %}
+{% endblock %}
+
+<script>
+function fillKeyFromTextarea(sourceId) {
+    const keyValue = document.getElementById(sourceId).value.trim();
+    document.getElementById('key').value = keyValue;
+}
+</script>

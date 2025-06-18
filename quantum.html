@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Steganography with QKD</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #7dd3fc;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        
+        .section {
+            background-color: #1e293b;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .entangled { background-color: #065f46; color: #6ee7b7; }
+        .inactive { background-color: #991b1b; color: #fca5a5; }
+        .active { background-color: #065f46; color: #6ee7b7; }
+        .establishing { background-color: #92400e; color: #fcd34d; }
+        .quantum { background-color: #4338ca; color: #a5b4fc; }
+        
+        .divider {
+            border: 0;
+            height: 1px;
+            background-color: #334155;
+            margin: 15px 0;
+        }
+        
+        button {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 8px 0;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:disabled {
+            background-color: #334155;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        input, textarea {
+            background-color: #334155;
+            border: 1px solid #475569;
+            color: #e2e8f0;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 8px 0;
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .success { background-color: #065f46; color: #6ee7b7; }
+        .error { background-color: #991b1b; color: #fca5a5; }
+        .warning { background-color: #92400e; color: #fcd34d; }
+        .info { background-color: #1e40af; color: #93c5fd; }
+        
+        .flash {
+            animation: flashAnimation 0.5s 2;
+        }
+        
+        @keyframes flashAnimation {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .qkd-visual {
+            height: 120px;
+            background: linear-gradient(90deg, #1e293b, #334155, #1e293b);
+            border-radius: 6px;
+            margin: 15px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .photon {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #7dd3fc;
+            box-shadow: 0 0 10px 2px #7dd3fc;
+            animation: photonMove 2s linear infinite;
+        }
+        
+        @keyframes photonMove {
+            0% { transform: translateX(-20px); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateX(820px); opacity: 0; }
+        }
+        
+        .qkd-status {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .qkd-step {
+            text-align: center;
+            flex: 1;
+            padding: 5px;
+        }
+        
+        .qkd-step.active {
+            color: #7dd3fc;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quantum Steganography with QKD</h1>
+    <p style="text-align: center;">Encode and decode secret messages using quantum entanglement and Quantum Key Distribution</p>
+    
+    <div class="alert" id="alert"></div>
+    
+    <!-- QKD Section -->
+    <div class="section">
+        <h2>Quantum Key Distribution</h2>
+        
+        <h3>❖ BB84 Protocol Simulation</h3>
+        <p>Establish secure quantum keys using photon polarization</p>
+        
+        <div class="qkd-visual" id="qkd-visual">
+            <!-- Photons will be added here by JavaScript -->
+        </div>
+        
+        <div class="qkd-status">
+            <div class="qkd-step" id="step1">1. Photon Transmission</div>
+            <div class="qkd-step" id="step2">2. Basis Selection</div>
+            <div class="qkd-step" id="step3">3. Key Shifting</div>
+            <div class="qkd-step" id="step4">4. Error Checking</div>
+        </div>
+        
+        <p><strong>Status:</strong> <span class="status inactive" id="qkd-status">Inactive</span></p>
+        <p id="qkd-progress">Key bits generated: 0/256</p>
+        <button id="qkd-btn" onclick="startQKD()">Initialize QKD Protocol</button>
+        <textarea id="quantum-key" placeholder="Quantum key will appear here..." rows="3" readonly></textarea>
+    </div>
+    
+    <!-- Encoding Section -->
+    <div class="section">
+        <h2>Encode Message</h2>
+        
+        <h3>❖ Quantum Entanglement Setup</h3>
+        <p>Create quantum entanglement between particle pairs</p>
+        <p><strong>Status:</strong> <span class="status inactive" id="entanglement-status">Not Entangled</span></p>
+        <p id="correlation-strength">Correlation strength: 0%</p>
+        <button id="entangle-btn" onclick="establishEntanglement()">Entangle Particles</button>
+        
+        <hr class="divider">
+        
+        <h3>❗ Message Encoding</h3>
+        <p>Encode your secret message into quantum states</p>
+        <input type="text" id="message-input" placeholder="Enter message to encode" disabled>
+        <button id="encode-btn" onclick="encodeMessage()" disabled>Encode Message</button>
+    </div>
+    
+    <!-- Decoding Section -->
+    <div class="section">
+        <h2>Decode Message</h2>
+        
+        <h3>❖ Quantum Entanglement Verification</h3>
+        <p>Verify quantum entanglement between particle pairs</p>
+        <p><strong>Status:</strong> <span class="status inactive" id="verification-status">Not Verified</span></p>
+        <p id="verification-strength">Correlation strength: 0%</p>
+        
+        <hr class="divider">
+        
+        <h3>❗ Message Decoding</h3>
+        <p>Decode the secret message from quantum states</p>
+        <button id="decode-btn" onclick="decodeMessage()" disabled>Decode Message</button>
+        <div id="decoded-result" style="margin-top:15px; padding:15px; background-color:#334155; border-radius:6px; display:none;">
+            <h4>Decrypted Message:</h4>
+            <p id="decoded-text"></p>
+        </div>
+    </div>
+    
+    <!-- Monitoring Section -->
+    <div class="section">
+        <h2>❙ Quantum Channel Monitor</h2>
+        <p><strong>Entanglement:</strong> <span class="status inactive" id="monitor-status">Inactive</span></p>
+        <p><strong>QKD:</strong> <span class="status inactive" id="qkd-monitor-status">Inactive</span></p>
+        <p id="coherence-value">Coherence: 0%</p>
+        <p id="monitoring-status">Monitoring: Offline</p>
+        <p id="coherence-time">Coherence Time: 0ns</p>
+        <p id="eavesdrop-status">Eavesdropping detection: <span class="status inactive" id="eavesdrop-indicator">No intrusion</span></p>
+    </div>
+
+    <script>
+        let quantumState = null;
+        let isEntangled = false;
+        let quantumKey = '';
+        let qkdActive = false;
+        let photonInterval;
+        
+        function startQKD() {
+            const btn = document.getElementById('qkd-btn');
+            const status = document.getElementById('qkd-status');
+            const visual = document.getElementById('qkd-visual');
+            
+            btn.disabled = true;
+            btn.textContent = "Running QKD...";
+            status.className = "status establishing";
+            status.textContent = "Establishing";
+            status.classList.add('flash');
+            
+            // Activate QKD steps
+            document.getElementById('step1').classList.add('active');
+            
+            // Start photon animation
+            let photonCount = 0;
+            photonInterval = setInterval(() => {
+                if (photonCount > 30) {
+                    clearInterval(photonInterval);
+                    return;
+                }
+                
+                const photon = document.createElement('div');
+                photon.className = 'photon';
+                photon.style.top = `${Math.random() * 100 + 10}px`;
+                photon.style.animationDelay = `${Math.random() * 0.5}s`;
+                visual.appendChild(photon);
+                
+                // Remove photon after animation completes
+                setTimeout(() => {
+                    photon.remove();
+                }, 2000);
+                
+                photonCount++;
+            }, 100);
+            
+            // Simulate QKD process
+            setTimeout(() => {
+                document.getElementById('step1').classList.remove('active');
+                document.getElementById('step2').classList.add('active');
+            }, 1500);
+            
+            setTimeout(() => {
+                document.getElementById('step2').classList.remove('active');
+                document.getElementById('step3').classList.add('active');
+            }, 3000);
+            
+            setTimeout(() => {
+                document.getElementById('step3').classList.remove('active');
+                document.getElementById('step4').classList.add('active');
+                
+                // Generate quantum key
+                let keyBits = '';
+                for (let i = 0; i < 256; i++) {
+                    keyBits += Math.random() > 0.5 ? '1' : '0';
+                }
+                quantumKey = keyBits;
+                
+                // Update UI
+                document.getElementById('quantum-key').value = quantumKey;
+                document.getElementById('qkd-progress').textContent = "Key bits generated: 256/256";
+                status.className = "status quantum";
+                status.textContent = "Secure";
+                btn.textContent = "QKD Complete";
+                document.getElementById('qkd-monitor-status').className = "status quantum";
+                document.getElementById('qkd-monitor-status').textContent = "Secure";
+                document.getElementById('step4').classList.remove('active');
+                
+                showAlert("Quantum Key Distribution completed successfully", "info");
+                qkdActive = true;
+            }, 4500);
+        }
+        
+        function establishEntanglement() {
+            const btn = document.getElementById('entangle-btn');
+            btn.disabled = true;
+            btn.textContent = "Entangling...";
+            
+            // Visual feedback
+            const statusElement = document.getElementById('entanglement-status');
+            statusElement.className = "status establishing";
+            statusElement.textContent = "Establishing";
+            statusElement.classList.add('flash');
+            
+            // Faster entanglement (0.8 seconds total)
+            setTimeout(() => {
+                isEntangled = true;
+                btn.textContent = "Entangled";
+                
+                // Update all status elements
+                statusElement.className = "status entangled";
+                statusElement.textContent = "Entangled";
+                statusElement.classList.remove('flash');
+                
+                document.getElementById('correlation-strength').textContent = "Correlation strength: 92%";
+                document.getElementById('encode-btn').disabled = false;
+                document.getElementById('message-input').disabled = false;
+                
+                // Update verification section
+                document.getElementById('verification-status').className = "status entangled";
+                document.getElementById('verification-status').textContent = "Entangled";
+                document.getElementById('verification-strength').textContent = "Correlation strength: 92%";
+                
+                // Update monitor section
+                document.getElementById('monitor-status').className = "status active";
+                document.getElementById('monitor-status').textContent = "Active";
+                document.getElementById('coherence-value').textContent = "Coherence: 92%";
+                document.getElementById('monitoring-status').textContent = "Monitoring: Quantum state analysis";
+                document.getElementById('coherence-time').textContent = "Coherence Time: 15.3ns";
+                document.getElementById('eavesdrop-indicator').className = "status active";
+                document.getElementById('eavesdrop-indicator').textContent = "No intrusion";
+                
+                document.getElementById('decode-btn').disabled = false;
+                showAlert("Quantum entanglement established successfully");
+            }, 800);
+        }
+        
+        function encodeMessage() {
+            const message = document.getElementById('message-input').value;
+            
+            if (!message) {
+                showAlert("Please enter a message to encode", "error");
+                return;
+            }
+            
+            try {
+                // Use quantum key if available, otherwise fall back to basic encoding
+                if (qkdActive && quantumKey) {
+                    // Simulate quantum encryption (in a real system this would use actual QKD)
+                    quantumState = `QKD-ENCRYPTED:${btoa(message)}:KEY:${quantumKey}`;
+                    showAlert("Message encoded with quantum key");
+                } else {
+                    quantumState = btoa(message);
+                    showAlert("Message encoded (basic mode)");
+                }
+                document.getElementById('message-input').value = "";
+            } catch (e) {
+                showAlert("Encoding failed: " + e.message, "error");
+            }
+        }
+        
+        function decodeMessage() {
+            if (!quantumState) {
+                showAlert("No quantum state detected", "error");
+                return;
+            }
+            
+            try {
+                let decoded;
+                if (quantumState.startsWith('QKD-ENCRYPTED:')) {
+                    // Simulate quantum decryption
+                    const parts = quantumState.split(':');
+                    decoded = atob(parts[1]);
+                    showAlert("Message decrypted with quantum key");
+                } else {
+                    decoded = atob(quantumState);
+                }
+                document.getElementById('decoded-text').textContent = decoded;
+                document.getElementById('decoded-result').style.display = "block";
+            } catch (e) {
+                showAlert("Decoding failed: " + e.message, "error");
+            }
+        }
+        
+        function showAlert(message, type = "success") {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.className = `alert ${type}`;
+            alert.style.display = "block";
+            
+            setTimeout(() => {
+                alert.style.display = "none";
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

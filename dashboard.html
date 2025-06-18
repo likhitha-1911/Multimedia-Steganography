@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="container py-5">
+    <h2 class="mb-4">User Dashboard</h2>
+    <p class="lead">Welcome, {{ current_user.username }}!</p>
+
+    <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Recent Upload Logs</h5>
+        </div>
+        <div class="card-body">
+            {% if logs %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Filename</th>
+                        <th>Steganography Type</th>
+                        <th>Timestamp</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                    <tr>
+                        <td>{{ log.action }}</td>
+                        <td>{{ log.media_filename if log.media_filename else 'N/A' }}</td>
+                        <td>{{ log.media_type if log.media_type else 'N/A' }}</td>
+                        <td>{{ log.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="text-muted">No logs found.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

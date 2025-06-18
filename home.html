@@ -1,0 +1,287 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Hero Section -->
+<section class="quantum-hero text-center p-5">
+    <div class="container">
+        <div class="particle-animation"></div>
+        <h1 class="display-4 fw-bold mb-3">Welcome to <span class="text-gradient">QuantumShield Pro</span></h1>
+        <p class="lead fs-3 mb-4">Advanced Multimedia Steganography Platform with <span class="quantum-badge">Quantum Security</span></p>
+        <div class="mt-4">
+            <a href="{{ url_for('services') }}" class="btn btn-quantum btn-lg px-4 py-3">
+                <i class="fas fa-atom me-2"></i>Explore Services
+            </a>
+        </div>
+        <div class="scroll-down mt-5">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </div>
+</section>
+
+<!-- What is Steganography Section -->
+<section class="container py-5 my-5">
+    <div class="section-header text-center mb-5">
+        <h2 class="display-5 fw-bold position-relative d-inline-block">
+            <span class="section-title">What is Steganography?</span>
+        </h2>
+        <div class="divider mx-auto my-3"></div>
+    </div>
+    
+    <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+            <div class="info-card p-4 p-lg-5 shadow-sm rounded-4">
+                <p class="fs-5 mb-4">
+                    Steganography is the practice of concealing messages or information within other non-secret text or data.
+                    It allows secure communication by embedding encrypted data inside multimedia such as images, audio, or videos,
+                    making it invisible to the naked eye.
+                </p>
+                <p class="fs-5">
+                    QuantumShield Pro combines classical encryption methods (AES, DES, RSA, ECC) with various steganographic techniques
+                    and includes support for quantum simulation-based data hiding, making it a future-ready platform.
+                </p>
+                <div class="features mt-4">
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt feature-icon"></i>
+                        <span>Military-grade encryption</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-eye-slash feature-icon"></i>
+                        <span>Complete data invisibility</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-quantum feature-icon"></i>
+                        <span>Quantum-ready architecture</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="steganography-visual">
+                <img src="{{ url_for('static', filename='images/steganography.png') }}" alt="Steganography Visualization" class="img-fluid rounded-4 shadow-lg">
+                <div class="visual-overlay"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Technology Stack Section -->
+<section class="tech-stack py-5 bg-light">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="display-5 fw-bold position-relative d-inline-block">
+                <span class="section-title">Our Technology Stack</span>
+            </h2>
+            <div class="divider mx-auto my-3"></div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-3 col-6">
+                <div class="tech-card text-center p-3 rounded-3">
+                    <i class="fas fa-lock tech-icon aes"></i>
+                    <h5 class="mt-3">AES-256</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="tech-card text-center p-3 rounded-3">
+                    <i class="fas fa-key tech-icon rsa"></i>
+                    <h5 class="mt-3">RSA</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="tech-card text-center p-3 rounded-3">
+                    <i class="fas fa-project-diagram tech-icon ecc"></i>
+                    <h5 class="mt-3">ECC</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="tech-card text-center p-3 rounded-3">
+                    <i class="fas fa-atom tech-icon quantum"></i>
+                    <h5 class="mt-3">QKD</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    :root {
+        --quantum-blue: #00b4d8;
+        --quantum-purple: #9d4edd;
+        --quantum-dark: #0d1b2a;
+        --quantum-teal: #4cc9f0;
+        --quantum-pink: #f72585;
+    }
+    
+    .quantum-hero {
+        background: linear-gradient(135deg, var(--quantum-dark) 0%, #1a2a42 100%);
+        color: white;
+        position: relative;
+        overflow: hidden;
+        padding: 6rem 1rem;
+    }
+    
+    .particle-animation {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
+    }
+    
+    .text-gradient {
+        background: linear-gradient(90deg, var(--quantum-teal), var(--quantum-purple));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        display: inline-block;
+    }
+    
+    .quantum-badge {
+        background: linear-gradient(90deg, var(--quantum-pink), var(--quantum-purple));
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        font-weight: 600;
+    }
+    
+    .btn-quantum {
+        background: linear-gradient(90deg, var(--quantum-blue), var(--quantum-purple));
+        color: white;
+        border: none;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(157, 78, 221, 0.3);
+    }
+    
+    .btn-quantum:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(157, 78, 221, 0.4);
+        color: white;
+    }
+    
+    .scroll-down {
+        color: rgba(255,255,255,0.6);
+        font-size: 1.5rem;
+        animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+        40% {transform: translateY(-15px);}
+        60% {transform: translateY(-7px);}
+    }
+    
+    .section-title {
+        position: relative;
+        z-index: 1;
+    }
+    
+    .section-title:after {
+        content: '';
+        position: absolute;
+        bottom: 5px;
+        left: 0;
+        width: 100%;
+        height: 10px;
+        background: linear-gradient(90deg, rgba(76,201,240,0.3), rgba(157,78,221,0.3));
+        z-index: -1;
+    }
+    
+    .divider {
+        height: 3px;
+        width: 80px;
+        background: linear-gradient(90deg, var(--quantum-blue), var(--quantum-purple));
+    }
+    
+    .info-card {
+        background: white;
+        border-left: 4px solid var(--quantum-blue);
+        transition: transform 0.3s ease;
+    }
+    
+    .info-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .steganography-visual {
+        position: relative;
+        overflow: hidden;
+        border-radius: 0.5rem;
+    }
+    
+    .visual-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(13,27,42,0.1) 0%, rgba(157,78,221,0.1) 100%);
+    }
+    
+    .feature-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.75rem;
+    }
+    
+    .feature-icon {
+        width: 30px;
+        height: 30px;
+        background: linear-gradient(135deg, var(--quantum-blue), var(--quantum-purple));
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+    }
+    
+    .tech-card {
+        background: white;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .tech-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .tech-icon {
+        font-size: 2.5rem;
+        background: linear-gradient(135deg, var(--quantum-blue), var(--quantum-purple));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    
+    .tech-icon.aes {
+        background: linear-gradient(135deg, #4cc9f0, #4895ef);
+    }
+    
+    .tech-icon.rsa {
+        background: linear-gradient(135deg, #f72585, #b5179e);
+    }
+    
+    .tech-icon.ecc {
+        background: linear-gradient(135deg, #560bad, #3a0ca3);
+    }
+    
+    .tech-icon.quantum {
+        background: linear-gradient(135deg, #38b000, #70e000);
+    }
+    
+    @media (max-width: 768px) {
+        .quantum-hero {
+            padding: 4rem 1rem;
+        }
+        
+        .display-4 {
+            font-size: 2.5rem;
+        }
+    }
+</style>
+
+<!-- Font Awesome for icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+{% endblock %}

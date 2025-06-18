@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-gradient-primary text-white py-5">
+    <div class="container py-4">
+        <h1 class="display-5 fw-bold mb-3">Secure Steganography Services</h1>
+        <p class="lead mb-0">Choose your preferred method of data concealment</p>
+    </div>
+</section>
+
+<!-- Services Grid -->
+<section class="container py-5">
+    <div class="row g-4">
+        <!-- Image Steganography -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card service-card h-100 border-0 shadow-sm transition-all hover-shadow">
+                <div class="card-body p-4 text-center">
+                    <div class="icon-wrapper bg-light-primary rounded-circle mx-auto mb-3">
+                        <i class="bi bi-image text-primary fs-3"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Image Steganography</h5>
+                    <p class="card-text text-muted">Hide messages in images using LSB techniques with AES-256 encryption</p>
+                    <a href="{{ url_for('image_stego') }}" class="btn btn-sm btn-outline-primary mt-3">Get Started</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Audio Steganography -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card service-card h-100 border-0 shadow-sm transition-all hover-shadow">
+                <div class="card-body p-4 text-center">
+                    <div class="icon-wrapper bg-light-primary rounded-circle mx-auto mb-3">
+                        <i class="bi bi-music-note text-primary fs-3"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Audio Steganography</h5>
+                    <p class="card-text text-muted">Conceal data in audio files using phase coding and echo hiding</p>
+                    <a href="{{ url_for('audio_stego') }}" class="btn btn-sm btn-outline-primary mt-3">Get Started</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Video Steganography -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card service-card h-100 border-0 shadow-sm transition-all hover-shadow">
+                <div class="card-body p-4 text-center">
+                    <div class="icon-wrapper bg-light-primary rounded-circle mx-auto mb-3">
+                        <i class="bi bi-camera-reels text-primary fs-3"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Video Steganography</h5>
+                    <p class="card-text text-muted">Embed messages in video frames with motion vector techniques</p>
+                    <a href="{{ url_for('video_stego') }}" class="btn btn-sm btn-outline-primary mt-3">Get Started</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quantum Steganography -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card service-card h-100 border-0 shadow-sm transition-all hover-shadow">
+                <div class="card-body p-4 text-center">
+                    <div class="icon-wrapper bg-light-primary rounded-circle mx-auto mb-3">
+                        <i class="bi bi-cpu text-primary fs-3"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Quantum Steganography</h5>
+                    <p class="card-text text-muted">Quantum-safe message hiding using simulated QKD protocols</p>
+                    <a href="{{ url_for('quantum_stego') }}" class="btn btn-sm btn-outline-primary mt-3">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Color Variables */
+    :root {
+        --primary: #4e73df;
+        --light-primary: rgba(78, 115, 223, 0.1);
+    }
+    
+    /* Hero Section */
+    .hero-section {
+        background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+    }
+    
+    /* Service Cards */
+    .service-card {
+        transition: all 0.3s ease;
+        border-radius: 0.5rem;
+    }
+    
+    .service-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .hover-shadow:hover {
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+    
+    /* Icon Wrapper */
+    .icon-wrapper {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Button Hover Effect */
+    .btn-outline-primary:hover {
+        background-color: var(--primary);
+        color: white;
+    }
+</style>
+{% endblock %}

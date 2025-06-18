@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="container py-5">
+    <h2 class="mb-4">Audio Steganography</h2>
+    <form id="audio-stego-form" method="POST" action="{{ url_for('audio_stego') }}" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="audioFile" class="form-label">Choose a WAV audio file</label>
+            <input class="form-control" type="file" name="audio" id="audioFile" required accept=".wav">
+        </div>
+        <div class="mb-3">
+            <label for="message" class="form-label">Message to embed</label>
+            <textarea class="form-control" name="message" id="message" rows="3" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="encryption" class="form-label">Encryption Method</label>
+            <select class="form-select" name="encryption" id="encryption" required>
+                <option value="AES">AES</option>
+                <option value="DES">DES</option>
+                <option value="RSA">RSA</option>
+                <option value="ECC">ECC</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="encKey" class="form-label">Enter Encryption Key</label>
+            <input class="form-control" type="password" name="key" id="encKey" required>
+        </div>
+        <button class="btn btn-success" type="submit" name="action" value="encrypt">Encrypt & Embed</button>
+    </form>
+    {% if stego_audio_url %}
+    <h3>Encrypted Audio:</h3>
+    <audio controls style="width: 100%; margin-bottom: 10px;">
+        <source src="{{ stego_audio_url }}" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+    <br>
+    <a href="{{ stego_audio_url }}" download class="btn btn-primary">Download Stego Audio</a>
+{% endif %}
+    <hr class="my-5">
+    <h4>Decrypt Message from Audio</h4>
+    <form id="audio-decrypt-form" method="POST" action="{{ url_for('audio_stego') }}" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="decryptAudio" class="form-label">Upload Audio with Hidden Message</label>
+            <input class="form-control" type="file" name="audio" id="decryptAudio" required accept=".wav">
+        </div>
+        <div class="mb-3">
+            <label for="decEncryption" class="form-label">Decryption Method</label>
+            <select class="form-select" name="encryption" id="decEncryption" required>
+                <option value="AES">AES</option>
+                <option value="DES">DES</option>
+                <option value="RSA">RSA</option>
+                <option value="ECC">ECC</option>
+            </select>
+        </div>
+    
+        <div class="mb-3">
+            <label for="decKey" class="form-label">Enter Decryption Key</label>
+            <input class="form-control" type="password" name="key" id="decKey" required>
+        </div>
+        <button class="btn btn-warning" type="submit" name="action" value="decrypt">Decrypt</button>
+    </form>
+
+    {% if decrypted_message %}
+    <div class="mt-4 alert alert-info">
+        <h5>Decrypted Message:</h5>
+        <p>{{ decrypted_message }}</p>
+    </div>
+    {% elif error %}
+    <div class="mt-4 alert alert-danger">
+        <strong>Error:</strong> {{ error }}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
