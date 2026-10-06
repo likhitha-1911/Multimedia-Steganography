@@ -26,7 +26,7 @@ def register():
         email = request.form['email']
         password = request.form['password']
         hashed_password = generate_password_hash(password)
-        user = User(username=username, email=email, password=hashed_password)
+        user = User(username=username, email=email, password=password)
         db.session.add(user)
         db.session.commit()
         flash('Registered successfully! Please log in.', 'success')
